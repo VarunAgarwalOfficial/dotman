@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Wrapper for yay to search and manage packages. Handles both official repos and AUR. Actions: search, install, search-installed, update, remove, clean.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+case "${1:-menu}" in
+    menu)
+        choice=$(run_menu "Yay" "search\ninstall\nsearch-installed\nupdate\nremove\nclean")
+        [ -z "$choice" ] && go_back
+        "$0" "$choice"
+        ;;
+
+    search)
+        PKG=$(yay -Slq | fzf --prompt="Search: " --preview="yay -Si {1} | head -30" --preview-window="right:50%:wrap")
+        [ -z "$PKG" ] && go_back
+        notify-send -a "Dotman" "Searched" "$PKG"
+        ;;
+
+    install)
+        PKG=$(yay -Slq | fzf --prompt="Install: " --preview="yay -Si {1} | head -30" --preview-window="right:50%:wrap")
+        [ -z "$PKG" ] && go_back
+        OUTPUT=$(yay -S "$PKG" 2>&1)
+        RESULT=$?
+        if [ $RESULT -eq 0 ]; then
+            notify-send -a "Dotman" "Installed" "$PKG"
+        else
+            LAST_ERR=$(echo "$OUTPUT" | grep -E "error|Error|ERROR" | tail -1 | cut -c1-100)
+            [ -z "$LAST_ERR" ] && LAST_ERR="Exit code: $RESULT"
+            notify-send -a "Dotman" "Install failed" "$LAST_ERR"
+        fi
+        ;;
+
+    search-installed)
+        PKG=$(yay -Qq | fzf --prompt="Installed: " --preview="yay -Qi {1} | head -30" --preview-window="right:50%:wrap")
+        [ -z "$PKG" ] && go_back
+        notify-send -a "Dotman" "Viewed" "$PKG"
+        ;;
+
+    update)
+        OUTPUT=$(yay -Syu 2>&1)
+        RESULT=$?
+        if [ $RESULT -eq 0 ]; then
+            notify-send -a "Dotman" "Updated" "System up to date"
+        else
+            LAST_ERR=$(echo "$OUTPUT" | grep -E "error|Error|ERROR" | tail -1 | cut -c1-100)
+            [ -z "$LAST_ERR" ] && LAST_ERR="Exit code: $RESULT"
+            notify-send -a "Dotman" "Update failed" "$LAST_ERR"
+        fi
+        ;;
+
+    remove)
+        PKG=$(yay -Qq | fzf --prompt="Remove: " --preview="yay -Qi {1} | head -20" --preview-window="right:50%:wrap")
+        [ -z "$PKG" ] && go_back
+        OUTPUT=$(echo "$PKG" | xargs -r yay -Rns 2>&1)
+        RESULT=$?
+        if [ $RESULT -eq 0 ]; then
+            notify-send -a "Dotman" "Removed" "$PKG"
+        else
+            LAST_ERR=$(echo "$OUTPUT" | grep -E "error|Error|ERROR" | tail -1 | cut -c1-100)
+            [ -z "$LAST_ERR" ] && LAST_ERR="Exit code: $RESULT"
+            notify-send -a "Dotman" "Remove failed" "$LAST_ERR"
+        fi
+        ;;
+
+    clean)
+        yay -Yc
+        notify-send -a "Dotman" "Cleaned" "Unused dependencies removed"
+        ;;
+
+    *)
+        echo "Usage: yay <search|install|search-installed|update|remove|clean>"
+        ;;
+esac

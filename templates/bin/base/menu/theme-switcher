@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Pick a dotman theme and apply it to all my configs. The theme colors show up in waybar, my shell prompt, vim, and anywhere else I use them.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Get list of available themes from dotman
+THEMES=$(python3 "$HOME/dotman/dotman.py" list --plain 2>&1)
+[ -z "$THEMES" ] && notify-send -a "Dotman" "No themes found" && go_back
+
+# Let the user pick a theme
+choice=$(run_menu "Theme" "$THEMES")
+[ -z "$choice" ] && go_back
+
+# Apply the theme and capture output
+OUTPUT=$(python3 "$HOME/dotman/dotman.py" apply "$choice" --verbose 2>&1)
+RESULT=$?
+
+# Notify the user if it worked or failed
+if [ $RESULT -eq 0 ]; then
+    notify-send -a "Dotman" "Applied" "$choice"
+else
+    LAST_ERR=$(echo "$OUTPUT" | grep -E "(Error|ERROR|error)" | tail -1 | cut -c1-100)
+    [ -z "$LAST_ERR" ] && LAST_ERR="Exit code: $RESULT"
+    notify-send -a "Dotman" "Failed" "$LAST_ERR"
+fi

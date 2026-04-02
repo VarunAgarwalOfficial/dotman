@@ -1,0 +1,74 @@
+# ~/.config/starship.toml
+
+# --- GLOBAL SETTINGS (Must be at the top) ---
+
+# Set the palette
+palette = "dotman"
+
+# Add a newline between prompts
+add_newline = true
+
+# Overall format
+format = """
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character"""
+
+# Right prompt format
+right_format = """$cmd_duration"""
+
+# --- PALETTES ---
+
+[palettes.dotman]
+accent = "{{ accent }}"
+blue = "{{ blue }}"
+grey = "{{ bg3 }}"
+yellow = "{{ yellow }}"
+magenta = "{{ magenta }}"
+red = "{{ red }}"
+cyan = "{{ cyan }}"
+green = "{{ green }}"
+
+# --- MODULES ---
+
+# Directory module
+[directory]
+style = "accent"
+format = "[$path]($style) "
+truncation_length = 3
+truncation_symbol = ".../"
+
+# Git Branch module
+[git_branch]
+style = "grey"
+format = "[$symbol$branch]($style)"
+symbol = ""  # No branch icon as per zen.toml
+
+# Git Status module
+[git_status]
+style = "grey"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "="
+ahead = "[⇡](cyan)"
+behind = "[⇣](cyan)"
+diverged = "⇕"
+untracked = "*"
+stashed = "$"
+modified = "*"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+# Command Duration module
+[cmd_duration]
+min_time = 5000  # Show only if execution time > 5000ms
+style = "yellow"
+format = "[$duration]($style)"
+
+# Character module (Prompt Symbol)
+[character]
+success_symbol = "[❯](accent)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](green)"

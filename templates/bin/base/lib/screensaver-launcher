@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Called from hypridle when away, or bound to SUPER+Escape to lock. Uses a lock file so I dont accidentally run multiple instances.
+
+LOCKFILE="/tmp/terminal-rain.lock"
+
+# Check if already running
+if [ -f "$LOCKFILE" ]; then
+    exit 0
+fi
+
+# Create lock file before running
+touch "$LOCKFILE"
+
+# Run the screensaver in a fullscreen foot window
+foot --app-id=fullscreen python3 "$HOME/.local/bin/terminal-rain"
+
+# Clean up lock file when done
+rm -f "$LOCKFILE"

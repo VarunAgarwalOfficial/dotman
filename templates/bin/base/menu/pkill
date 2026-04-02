@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# List running processes and kill the selected one. Excludes fzf and foot since those are the menu processes themselves.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Get list of running processes for this user
+PROCESSES=$(ps -u "$(whoami)" -o comm,pid --no-headers | grep -v -E "fzf|foot" | sort -u)
+
+# Pick one to kill
+choice=$(echo "$PROCESSES" | fzf --prompt="Kill: ")
+[ -z "$choice" ] && go_back
+
+# Extract the PID from the selection
+pid=$(echo "$choice" | awk '{print $2}')
+
+# Try to kill it
+if [ -n "$pid" ]; then
+    if kill "$pid" 2>/dev/null; then
+        notify-send -a "Dotman" "Killed" "$choice"
+    else
+        notify-send -a "Dotman" "Failed" "Could not kill $choice"
+    fi
+fi

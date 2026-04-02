@@ -1,0 +1,29 @@
+{
+  "group/connection": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-connection",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "bluetooth",
+      "custom/bluetooth-battery"
+    ]
+  },
+  "bluetooth": {
+    "format": "",
+    "format-connected": "",
+    "format-connected-battery": "",
+    "on-click": "~/.local/bin/lib/floating-terminal bluetui",
+    "tooltip": false
+  },
+  "custom/bluetooth-battery": {
+    "format": "{}",
+    "tooltip": false,
+    "interval": 600,
+    "exec": "sh ~/.config/waybar/scripts/bluetooth.sh",
+    "exec-if": "bluetoothctl info 2>/dev/null | grep -q 'Connected: yes'",
+    "rotate": 90
+  }
+}

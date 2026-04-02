@@ -1,0 +1,43 @@
+{
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-power",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "battery",
+      "battery#text"
+    ]
+  },
+  "battery": {
+    "format": "{icon}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "tooltip": false
+  },
+  "battery#text": {
+    "format": "{icon}",
+    "format-icons": [
+      "░░░░░░░░░░",
+      "█░░░░░░░░░",
+      "██░░░░░░░░",
+      "███░░░░░░░",
+      "████░░░░░░",
+      "█████░░░░░",
+      "██████░░░░",
+      "███████░░░",
+      "████████░░",
+      "█████████░",
+      "██████████"
+    ],
+    "tooltip": false,
+    "rotate": 90
+  }
+}

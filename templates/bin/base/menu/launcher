@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Bound to SUPER+SPACE. Spawns one foot terminal for a single menu selection. The terminal closes after the selected item runs.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+choice=$(run_menu "Menu" "theme-switcher\npowermenu\napp-launcher\nwallpaper-picker\nvim-notes\nclipboard\nquicknotes\nbin-run\npkill\nyay")
+[ -n "$choice" ] && "$SCRIPT_DIR/$choice"

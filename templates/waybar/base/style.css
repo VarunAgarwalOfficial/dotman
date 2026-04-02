@@ -1,0 +1,150 @@
+* {
+  /* Reset everything, waybar handles its own styling */
+  all: unset;
+  border: none;
+  border-radius: {{ border_radius }}px;
+  font-family: "{{ font_icons }}" , "{{ font_heading }}";
+  font-size: {{ font_size * 2}};
+  font-weight: normal;
+  min-height: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-shadow: none;
+  transition: all 0.2s ease, color 0s ease;
+}
+
+window#waybar {
+  /* Main waybar background */
+  background: {{ bg0 }};
+}
+
+/* Tooltip styling for modules that show extra info */
+tooltip {
+  background: {{ bg0 }};
+  border: {{ border_size }}px solid {{ accent }};
+  transition: none;
+}
+
+tooltip label {
+  color: {{ fg0 }};
+  font-weight: 300;
+}
+
+/* Workspaces - shows active tags from hyprland */
+#workspaces {
+  padding: {{gap * 2}}px 0;
+}
+
+#workspaces button label{
+  font-size: {{font_size * 1.5}};
+}
+
+#workspaces button {
+  color: {{ fg0 }};
+  margin: 0;
+  padding: {{gap}}px 0;
+}
+
+#workspaces button.active {
+  /* Highlight the current workspace */
+  padding: {{gap*2}}px 0;
+  color: {{ bg0 }};
+  background-color: {{ accent }};
+}
+
+#workspaces button:hover {
+  color: {{ bg0 }};
+  background-color: {{ yellow }};
+}
+
+#workspaces button.urgent {
+  color: {{ bg0 }};
+  background-color: {{ red }};
+}
+
+/* Vertical padding for modules with icons or taller content */
+#custom-weather,
+#custom-pacman,
+#custom-screenshot,
+#custom-media,
+#wireplumber,
+#bluetooth,
+#network,
+#custom-microphone,
+#custom-volume-bar,
+#battery,
+#custom-btop {
+  padding: {{gap * 2}}px 0;
+}
+
+/* Text-only modules don't need extra padding */
+#custom-weather-text,
+#custom-media-text,
+#custom-bluetooth-battery,
+#battery-text,
+#network-text {
+  padding: 0px;
+}
+
+/* Clock shows current time */
+#clock-time {
+  color: {{ fg0 }};
+}
+
+/* btop system monitor */
+#custom-btop {
+  color: {{ red }};
+}
+
+/* Audio playback control and volume bar */
+#wireplumber,
+#custom-volume-bar {
+  color: {{ green }};
+}
+
+#wireplumber.muted {
+  color: {{ blue }};
+}
+
+/* Microphone muted or active */
+#custom-microphone {
+  color: {{ blue }};
+}
+
+/* Currently playing media */
+#custom-media,
+#custom-media-text {
+  color: {{ magenta }};
+}
+
+/* Weather info from wttr.in */
+#custom-weather,
+#custom-weather-text {
+  color: {{ yellow }};
+}
+
+/* Bluetooth status and device battery */
+#bluetooth,
+#custom-bluetooth-battery {
+  color: {{ cyan }};
+}
+
+/* Laptop battery percentage */
+#battery,
+#battery-text {
+  color: {{ cyan }};
+}
+
+/* Network connectivity status */
+#network,
+#network-text {
+  color: {{ bright_blue }};
+}
+
+/* Screenshot hotkeys and pacman updates */
+#custom-screenshot,
+#custom-pacman {
+  color: {{ accent }};
+}

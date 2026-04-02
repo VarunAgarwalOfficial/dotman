@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+choice=$(echo -e "Shutdown\nReboot\nLock\nSleep\nLogout\nSuspend" | $FZF_DRUN_CORE)
+
+case "$choice" in
+    Shutdown) systemctl poweroff ;;
+    Reboot) systemctl reboot ;;
+    Lock) loginctl lock-session ;;
+    Sleep) systemctl suspend ;;
+    Logout) hyprctl dispatch exit 0 ;;
+    Suspend) systemctl suspend ;;
+esac

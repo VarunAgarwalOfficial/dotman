@@ -1,0 +1,11 @@
+[color]
+gradient = 1
+
+gradient_color_1 = '{{ accent | strip }}'
+gradient_color_2 = '{{ accent | strip }}'
+gradient_color_3 = '{{ accent | strip }}'
+gradient_color_4 = '{{ accent | strip }}'
+gradient_color_5 = '{{ accent | strip }}'
+gradient_color_6 = '{{ accent | strip }}'
+gradient_color_7 = '{{ accent | strip }}'
+gradient_color_8 = '{{ accent | strip }}'

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+# Get list of running processes (user processes only), excluding fzf and foot
+PROCESSES=$(ps -u "$(whoami)" -o comm,pid --no-headers | grep -v -E "fzf|foot" | sort -u)
+
+choice=$(echo "$PROCESSES" | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    # Extract PID (second column)
+    pid=$(echo "$choice" | awk '{print $2}')
+    
+    if [ -n "$pid" ]; then
+        # Try to kill gracefully
+        if kill "$pid" 2>/dev/null; then
+            notify-send -a "Dotman" "Process Killed" "Killed: $choice"
+        else
+            notify-send -a "Dotman" "Failed to Kill" "Could not kill: $choice"
+        fi
+    fi
+fi

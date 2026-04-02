@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+WALLPAPERS_DIR="${HOME}/.config/wallpapers"
+CURRENT_FILE="${WALLPAPERS_DIR}/.current"
+
+if [ ! -d "$WALLPAPERS_DIR" ]; then
+    notify-send -a "Dotman" "Wallpaper Picker" "Wallpapers directory not found at ${WALLPAPERS_DIR}"
+    exit 1
+fi
+
+# Find all subdirectories (themes)
+THEMES=$(find "$WALLPAPERS_DIR" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort | xargs -n1 basename 2>/dev/null)
+
+if [ -z "$THEMES" ]; then
+    notify-send -a "Dotman" "Wallpaper Picker" "No theme folders found in ${WALLPAPERS_DIR}"
+    exit 1
+fi
+
+# First level: select theme
+selected_theme=$(echo "$THEMES" | $FZF_DRUN_CORE)
+
+if [ -z "$selected_theme" ]; then
+    exit 0
+fi
+
+THEME_DIR="${WALLPAPERS_DIR}/${selected_theme}"
+
+if [ ! -d "$THEME_DIR" ]; then
+    notify-send -a "Dotman" "Wallpaper Picker" "Theme folder not found: ${selected_theme}"
+    exit 1
+fi
+
+# Second level: find wallpapers in selected theme
+IMAGES=$(find "$THEME_DIR" -type f \( \
+    -iname "*.jpg" -o \
+    -iname "*.jpeg" -o \
+    -iname "*.png" -o \
+    -iname "*.webp" \
+\) 2>/dev/null | sort)
+
+if [ -z "$IMAGES" ]; then
+    notify-send -a "Dotman" "Wallpaper Picker" "No images found in ${selected_theme}"
+    exit 1
+fi
+
+# Format for display: just filename
+FORMATTED=$(echo "$IMAGES" | while read -r img; do
+    filename=$(basename "$img")
+    echo "$filename|$img"
+done)
+
+# Show wallpapers in fzf
+choice=$(echo "$FORMATTED" | cut -d'|' -f1 | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    # Get full path from choice
+    selected_path=$(echo "$FORMATTED" | grep "^${choice}|" | cut -d'|' -f2)
+
+    if [ -n "$selected_path" ] && [ -f "$selected_path" ]; then
+        # Update hyprpaper
+        hyprctl hyprpaper preload "${selected_path}" 2>/dev/null
+        for monitor in $(hyprctl monitors | grep "Monitor" | awk '{print $2}'); do
+            hyprctl hyprpaper wallpaper ",${selected_path}" 2>/dev/null
+        done
+
+        # Save current wallpaper
+        echo "$selected_path" > "$CURRENT_FILE"
+
+        # Show filename in notification
+        notify-send -a "Dotman" "Wallpaper Changed" "${selected_theme}: ${choice}"
+    fi
+fi

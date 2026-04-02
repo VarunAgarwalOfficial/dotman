@@ -1,0 +1,35 @@
+{
+"include": [
+    "~/.config/waybar/modules/hyprland.jsonc",
+    "~/.config/waybar/modules/system.jsonc",
+    "~/.config/waybar/modules/screenshot.jsonc",
+    "~/.config/waybar/modules/clock.jsonc",
+    "~/.config/waybar/modules/weather.jsonc",
+    "~/.config/waybar/modules/network.jsonc",
+    "~/.config/waybar/modules/media.jsonc",
+    "~/.config/waybar/modules/audio.jsonc",
+    "~/.config/waybar/modules/bluetooth.jsonc",
+    "~/.config/waybar/modules/battery.jsonc"
+  ],
+  "position": "left",
+  "margin": "{{ gap * 2 }} 0 {{ gap * 2 }} {{ gap * 2 }}",
+  "width": 40,
+  "modules-left": [
+    "hyprland/workspaces",
+    "custom/screenshot",
+    "custom/pacman"
+  ],
+  "modules-center": [
+    "clock#time"
+  ],
+  "modules-right": [
+    "group/media",
+    "group/weather",
+    "custom/btop",
+    "group/audio",
+    "custom/microphone",
+    "group/connection",
+    "group/power",
+    "group/network"
+  ]
+}

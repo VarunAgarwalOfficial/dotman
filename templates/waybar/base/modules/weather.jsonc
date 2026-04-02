@@ -1,0 +1,28 @@
+{
+  "group/weather": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-weather",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/weather",
+      "custom/weather-text"
+    ]
+  },
+  "custom/weather": {
+    "format": "{}",
+    "tooltip": false,
+    "interval": 1800,
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "on-click": "~/.local/bin/lib/floating-terminal sh -c \"curl wttr.in/Sydney; echo 'Press Enter to close'; read\""
+  },
+  "custom/weather-text": {
+    "format": "{}",
+    "tooltip": false,
+    "interval": 1800,
+    "exec": "~/.config/waybar/scripts/weather.sh Sydney temp",
+    "rotate": 90
+  }
+}

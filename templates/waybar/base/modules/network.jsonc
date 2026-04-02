@@ -1,0 +1,41 @@
+{
+  "group/network": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-network",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "network",
+      "network#text"
+    ]
+  },
+  "network": {
+    "interface": "wlan0",
+    "format": "{ifname}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "",
+    "format-disconnected": "",
+    "max-length": 50,
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "on-click": "~/.local/bin/lib/floating-terminal impala",
+    "tooltip": false
+  },
+  "network#text": {
+    "interface": "wlan0",
+    "format": "{essid}",
+    "format-wifi": "{essid}",
+    "format-ethernet": "{ipaddr}",
+    "format-disconnected": "Offline",
+    "tooltip": false,
+    "rotate": 90,
+    "max-length": 20
+  }
+}

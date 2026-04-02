@@ -1,0 +1,37 @@
+{
+  "group/media": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-media",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/media",
+      "custom/media-text"
+    ]
+  },
+  "custom/media": {
+    "format": "",
+    "escape": true,
+    "tooltip": false,
+    "max-length": 20,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "~/.local/bin/lib/floating-terminal cava",
+    "smooth-scrolling-threshold": 1,
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "exec": "playerctl metadata --format '{{ '{{' }} artist {{ '}}' }} - {{ '{{' }} title {{ '}}' }}'",
+    "interval": 2
+  },
+  "custom/media-text": {
+    "format": "{}",
+    "escape": true,
+    "tooltip": false,
+    "max-length": 20,
+    "on-click": "playerctl play-pause",
+    "exec": "playerctl metadata --format '{{ '{{' }} artist {{ '}}' }} - {{ '{{' }} title {{ '}}' }}'",
+    "interval": 2,
+    "rotate": 90
+  }
+}

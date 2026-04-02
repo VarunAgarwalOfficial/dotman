@@ -1,0 +1,61 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "type": "command-raw",
+        "source": "python3 ~/.config/fastfetch/pokemon-logo.sh",
+        "padding": {
+            "top": 0,
+            "left": 4
+        }
+    },
+    "display": {
+        "separator": "  "
+    },
+    "modules": [
+        "break",
+        {
+            "type": "title",
+            "color": {
+                "user": "{{ accent }}",
+                "at": "{{ fg0 }}",
+                "host": "{{ accent }}"
+            }
+        },
+        {
+            "type": "os",
+            "key": "os    ",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "kernel",
+            "key": "kernel",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "uptime",
+            "key": "uptime",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "packages",
+            "key": "pkgs  ",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "cpu",
+            "key": "cpu   ",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "memory",
+            "key": "ram   ",
+            "keyColor": "{{ accent }}"
+        },
+        {
+            "type": "gpu",
+            "key": "gpu   ",
+            "keyColor": "{{ accent }}"
+        },
+        "break"
+    ]
+}

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Quick access to shutdown, reboot, suspend, or logout. Bound to a key so I can power down without reaching for the terminal.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Pick an action
+choice=$(echo -e "Shutdown\nReboot\nSleep\nLogout" | fzf --prompt="Power: ")
+[ -z "$choice" ] && go_back
+
+# Run the selected command
+case "$choice" in
+    Shutdown) systemctl poweroff ;;
+    Reboot) systemctl reboot ;;
+    Sleep) systemctl suspend ;;
+    Logout) hyprctl dispatch exit 0 ;;
+esac

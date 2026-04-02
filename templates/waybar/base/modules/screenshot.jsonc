@@ -1,0 +1,7 @@
+{
+  "custom/screenshot": {
+    "format": "",
+    "on-click": "~/.local/bin/screenshot",
+    "tooltip": false
+  }
+}

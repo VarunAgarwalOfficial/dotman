@@ -1,0 +1,14 @@
+backup_dir: "~/.local/state/dotman/backups"
+defaults:
+  config:
+    shell: "fish"
+    gap: 5
+    padding: 40
+    border_size: 3
+    border_radius: 0
+    font_main: "JetBrains Mono"
+    font_heading: "Iosevka"
+    font_emoji: "OpenMoji Color"
+    font_icons: "Font Awesome 7 Pro Mono"
+    font_size: 14
+    timeout: 5000

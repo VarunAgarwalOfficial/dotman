@@ -1,0 +1,98 @@
+# Global Configuration Requirements
+required_config: ["gap", "padding", "border_size", "border_radius", "font_main", "font_heading", "font_emoji", "font_icons", "font_size", "timeout", "shell", "theme_name"]
+
+hyprland:
+  target: "~/.config/hypr"
+  template: "templates/hyprland"
+  reload: "hyprctl reload"
+
+waybar:
+  target: "~/.config/waybar"
+  template: "templates/waybar"
+  reload: "killall waybar; setsid waybar &"
+
+bin:
+  target: "~/.local/bin"
+  template: "templates/bin"
+
+mako:
+  target: "~/.config/mako"
+  template: "templates/mako"
+  reload: "makoctl reload"
+
+ghostty:
+  target: "~/.config/ghostty"
+  template: "templates/ghostty"
+  reload: "killall -SIGUSR2 ghostty"
+
+fish:
+  target: "~/.config/fish"
+  template: "templates/shell"
+  files: ["config.fish"]
+
+bash:
+  target: "~"
+  template: "templates/shell"
+  files: [".bashrc"]
+
+starship:
+  target: "~/.config"
+  template: "templates/starship"
+  files: ["starship.toml"]
+
+fastfetch:
+  target: "~/.config/fastfetch"
+  template: "templates/fastfetch"
+
+btop:
+  target: "~/.config/btop"
+  template: "templates/btop"
+
+cava:
+  target: "~/.config/cava"
+  template: "templates/cava"
+
+lazygit:
+  target: "~/.config/lazygit"
+  template: "templates/lazygit"
+
+bat:
+  target: "~/.config/bat"
+  template: "templates/bat"
+
+foot:
+  target: "~/.config/foot"
+  template: "templates/foot"
+  reload: "pkill -SIGUSR1 foot"
+
+fontconfig:
+  target: "~/.config/fontconfig"
+  template: "templates/fontconfig"
+  reload: "fc-cache -fv"
+
+wallpapers:
+  target: "~/.config/wallpapers"
+  template: "templates/wallpapers"
+  backup: false
+
+lazyvim:
+  target: "~/.config/nvim"
+  template: "templates/lazyvim"
+  files: ["lua/plugins/colorscheme.lua"]
+
+opencode:
+  target: "~/.config/opencode"
+  template: "templates/opencode"
+
+yazi:
+  target: "~/.config/yazi"
+  template: "templates/yazi"
+
+gtk:
+  target: "~/.config"
+  template: "templates/gtk"
+
+papirus:
+  target: "~/.local/share/icons"
+  template: "templates/papirus"
+  reload: "bash ~/.local/share/icons/setup.sh"

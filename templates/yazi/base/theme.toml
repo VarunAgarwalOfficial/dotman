@@ -1,0 +1,139 @@
+[app]
+overall = { bg = "{{ bg0 }}" }
+
+[mgr]
+cwd = { fg = "{{ cyan }}" }
+
+find_keyword  = { fg = "{{ accent }}", italic = true }
+find_position = { fg = "{{ magenta }}", bg = "reset", italic = true }
+
+marker_copied   = { fg = "{{ green }}", bg = "{{ green }}" }
+marker_cut      = { fg = "{{ red }}", bg = "{{ red }}" }
+marker_marked   = { fg = "{{ cyan }}", bg = "{{ cyan }}" }
+marker_selected = { fg = "{{ accent }}", bg = "{{ accent }}" }
+
+count_copied   = { fg = "{{ bg0 }}", bg = "{{ green }}" }
+count_cut      = { fg = "{{ bg0 }}", bg = "{{ red }}" }
+count_selected = { fg = "{{ bg0 }}", bg = "{{ accent }}" }
+
+border_symbol = "│"
+border_style  = { fg = "{{ fg1 }}" }
+
+syntect_theme = "~/.config/bat/themes/theme.tmTheme"
+
+[tabs]
+active   = { fg = "{{ bg0 }}", bg = "{{ fg0 }}", bold = true }
+inactive = { fg = "{{ fg0 }}", bg = "{{ bg3 }}" }
+
+[mode]
+normal_main = { fg = "{{ bg0 }}", bg = "{{ accent }}", bold = true }
+normal_alt  = { fg = "{{ accent }}", bg = "{{ bg2 }}"}
+
+select_main = { fg = "{{ bg0 }}", bg = "{{ green }}", bold = true }
+select_alt  = { fg = "{{ green }}", bg = "{{ bg2 }}"}
+
+unset_main  = { fg = "{{ bg0 }}", bg = "{{ magenta }}", bold = true }
+unset_alt   = { fg = "{{ magenta }}", bg = "{{ bg2 }}"}
+
+[indicator]
+padding = { open = "▐", close = "▌" }
+
+parent  = { fg = "{{ bg0 }}", bg = "{{ fg0 }}" }
+current = { fg = "{{ bg0 }}", bg = "{{ accent }}" }
+preview = { fg = "{{ bg0 }}", bg = "{{ fg0 }}" }
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+progress_label  = { fg = "#ffffff", bold = true }
+progress_normal = { fg = "{{ green }}", bg = "{{ bg3 }}" }
+progress_error  = { fg = "{{ accent }}", bg = "{{ red }}" }
+
+perm_type  = { fg = "{{ accent }}" }
+perm_read  = { fg = "{{ accent }}" }
+perm_write = { fg = "{{ red }}" }
+perm_exec  = { fg = "{{ green }}" }
+perm_sep   = { fg = "{{ fg1 }}" }
+
+[input]
+border   = { fg = "{{ accent }}" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+[pick]
+border   = { fg = "{{ accent }}" }
+active   = { fg = "{{ magenta }}" }
+inactive = {}
+
+[confirm]
+border     = { fg = "{{ accent }}" }
+title      = { fg = "{{ accent }}" }
+body       = {}
+list       = {}
+btn_yes    = { reversed = true }
+btn_no     = {}
+
+[cmp]
+border = { fg = "{{ accent }}" }
+
+[tasks]
+border  = { fg = "{{ accent }}" }
+title   = {}
+hovered = { fg = "{{ magenta }}", bold = true }
+
+[which]
+mask            = { bg = "{{ bg2 }}" }
+cand            = { fg = "{{ cyan }}" }
+rest            = { fg = "{{ fg1 }}" }
+desc            = { fg = "{{ magenta }}" }
+separator       = "  "
+separator_style = { fg = "{{ bright_black }}" }
+
+[help]
+on      = { fg = "{{ cyan }}" }
+run     = { fg = "{{ magenta }}" }
+desc    = { fg = "{{ fg1 }}" }
+hovered = { bg = "{{ bright_black }}", bold = true }
+footer  = { fg = "{{ fg0 }}", bg = "{{ bg3 }}" }
+
+[notify]
+title_info  = { fg = "{{ cyan }}" }
+title_warn  = { fg = "{{ accent }}" }
+title_error = { fg = "{{ red }}" }
+
+[filetype]
+rules = [
+	# Media
+	{ mime = "image/*", fg = "{{ cyan }}" },
+	{ mime = "{audio,video}/*", fg = "{{ accent }}" },
+
+	# Archives
+	{ mime = "application/*zip", fg = "{{ magenta }}" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "{{ magenta }}" },
+
+	# Documents
+	{ mime = "application/{pdf,doc,rtf}", fg = "{{ green }}" },
+
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "{{ bg3 }}" },
+
+	# Special file
+	{ url = "*", is = "orphan", bg = "{{ red }}" },
+	{ url = "*", is = "exec"  , fg = "{{ green }}" },
+
+	# Dummy file
+	{ url = "*", is = "dummy", bg = "{{ red }}" },
+	{ url = "*/", is = "dummy", bg = "{{ red }}" },
+
+	# Fallback
+	{ url = "*/", fg = "{{ accent }}" },
+]
+
+[spot]
+border = { fg = "{{ accent }}" }
+title  = { fg = "{{ accent }}" }
+tbl_cell = { fg = "{{ accent }}", reversed = true }
+tbl_col = { bold = true }
+

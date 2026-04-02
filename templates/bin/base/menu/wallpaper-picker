@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Browse wallpapers by theme folder, then pick an image. Saves the current choice so I can restore it later.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+WALLPAPERS_DIR="${HOME}/.config/wallpapers"
+[ ! -d "$WALLPAPERS_DIR" ] && notify-send "Wallpapers dir not found" && go_back
+
+# Find theme folders
+THEMES=$(find "$WALLPAPERS_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+[ -z "$THEMES" ] && notify-send "No themes found" && go_back
+
+# Pick a theme folder
+selected_theme=$(echo "$THEMES" | fzf --prompt="Theme: ")
+[ -z "$selected_theme" ] && go_back
+
+# Find images in that folder
+IMAGES=$(find "$WALLPAPERS_DIR/$selected_theme" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) 2>/dev/null | sort)
+[ -z "$IMAGES" ] && notify-send "No images found" && go_back
+
+# Pick an image
+choice=$(echo "$IMAGES" | xargs -n1 basename | fzf --prompt="Wallpaper: ")
+[ -z "$choice" ] && go_back
+
+# Set the wallpaper with hyprpaper
+selected_path="$WALLPAPERS_DIR/$selected_theme/$choice"
+hyprctl hyprpaper preload "$selected_path" 2>/dev/null
+hyprctl hyprpaper wallpaper ",$selected_path" 2>/dev/null
+echo "$selected_path" > "$WALLPAPERS_DIR/.current"  # Save current for later
+notify-send "Wallpaper changed" "$choice"

@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+# ASCII rain screensaver. Matrix-like effect with occasional lightning strikes. Run in a fullscreen foot terminal when away from the computer. ESC or Ctrl+C to exit, resizes automatically.
+
+import curses, time, random, os, sys
+from dataclasses import dataclass
+
+UPDATE_INTERVAL = 0.015
+RAIN_CHARS      = ['|', '.', '`']
+LIGHTNING_CHARS = ['*', '+', '#']
+
+LIGHTNING_CHANCE        = 0.02
+LIGHTNING_GROWTH_DELAY  = 0.002
+LIGHTNING_MAX_BRANCHES  = 2
+LIGHTNING_BRANCH_CHANCE = 0.3
+FORK_CHANCE             = 0.15
+FORK_SPREAD             = 3
+SEGMENT_LIFESPAN        = 0.8
+
+LIGHTNING_COLOR_ATTR = None
+
+@dataclass
+class Raindrop:
+    x: int
+    y: float
+    speed: float
+    char: str
+
+class LightningBolt:
+    def __init__(self, row, col, max_y, max_x):
+        self.max_y = max_y
+        self.max_x = max_x
+        self.target = random.randint(max_y // 2, max_y - 2)
+        self.segments = [(row, col, time.time())]
+        self.last_grow = time.time()
+        self.growing = True
+
+    def _clamp(self, x):
+        return max(0, min(self.max_x - 1, x))
+
+    def update(self):
+        now = time.time()
+        if self.growing and now - self.last_grow >= LIGHTNING_GROWTH_DELAY:
+            self.last_grow = now
+            last_y, last_x, _ = self.segments[-1]
+
+            if len(self.segments) < self.target and last_y < self.max_y - 1:
+                count = random.randint(1, LIGHTNING_MAX_BRANCHES + 1) if random.random() < LIGHTNING_BRANCH_CHANCE else 1
+                new, cur_x, primary_x = [], last_x, last_x
+
+                for i in range(count):
+                    nx = self._clamp(cur_x + random.randint(-2, 2))
+                    new.append((last_y + 1, nx, now))
+                    if i == 0: 
+                        primary_x = nx
+                    cur_x = nx
+
+                if random.random() < FORK_CHANCE:
+                    fx = self._clamp(last_x + random.choice([-1, 1]) * random.randint(1, FORK_SPREAD))
+                    if fx != primary_x:
+                        new.append((last_y + 1, fx, now))
+
+                self.segments.extend({(s[0], s[1]): s for s in new}.values())
+            else:
+                self.growing = False
+
+        return bool(self.segments) and any(now - t <= SEGMENT_LIFESPAN for _, _, t in self.segments)
+
+    def draw(self, stdscr):
+        now = time.time()
+        max_r, max_c = stdscr.getmaxyx()
+        for y, x, created in self.segments:
+            age = now - created
+            if age <= SEGMENT_LIFESPAN and y < max_r and x < max_c:
+                char = LIGHTNING_CHARS[2 if age / SEGMENT_LIFESPAN < 0.33 else (1 if age / SEGMENT_LIFESPAN < 0.66 else 0)]
+                try:
+                    stdscr.addstr(int(y), int(x), char, LIGHTNING_COLOR_ATTR)
+                except curses.error:
+                    pass
+
+def setup_colors():
+    global LIGHTNING_COLOR_ATTR
+    curses.start_color()
+    curses.use_default_colors()
+    curses.init_pair(1, curses.COLOR_CYAN, -1)
+    curses.init_pair(2, curses.COLOR_WHITE, -1)
+    LIGHTNING_COLOR_ATTR = curses.color_pair(2) | curses.A_BOLD
+
+def simulate_rain(stdscr):
+    curses.curs_set(0)
+    stdscr.nodelay(True)
+    stdscr.timeout(1)
+    setup_colors()
+
+    raindrops, bolts = [], []
+    rows, cols = stdscr.getmaxyx()
+    last_update = time.time()
+
+    while True:
+        key = stdscr.getch()
+        if key in (27, 3):
+            break
+        if key == curses.KEY_RESIZE:
+            rows, cols = stdscr.getmaxyx()
+            stdscr.clear()
+            raindrops.clear()
+            bolts.clear()
+
+        now = time.time()
+        elapsed = now - last_update
+        if elapsed < UPDATE_INTERVAL:
+            time.sleep(UPDATE_INTERVAL - elapsed)
+        last_update = time.time()
+
+        if len(bolts) < 3 and random.random() < LIGHTNING_CHANCE:
+            bolts.append(LightningBolt(
+                random.randint(0, rows // 5),
+                random.randint(cols // 4, 3 * cols // 4),
+                rows, cols
+            ))
+        bolts = [b for b in bolts if b.update()]
+
+        if random.random() < 0.5:
+            for _ in range(random.randint(1, max(1, cols // 8))):
+                raindrops.append(Raindrop(
+                    x=random.randint(0, cols - 1),
+                    y=0,
+                    speed=random.uniform(0.3, 1.0),
+                    char=random.choice(RAIN_CHARS)
+                ))
+
+        for d in raindrops:
+            d.y += d.speed
+        raindrops = [d for d in raindrops if int(d.y) < rows]
+
+        stdscr.clear()
+        for b in bolts:
+            b.draw(stdscr)
+        for d in raindrops:
+            try:
+                stdscr.addstr(int(d.y), d.x, d.char, curses.color_pair(1) | curses.A_BOLD)
+            except curses.error:
+                pass
+        stdscr.noutrefresh()
+        curses.doupdate()
+
+def main():
+    if not os.isatty(1) or os.environ.get('TERM') == 'dumb':
+        print("Error: This script requires a TTY with curses support.")
+        return
+    try:
+        curses.wrapper(simulate_rain)
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        try:
+            curses.endwin()
+        except Exception:
+            pass
+        print(f"\nError: {e}")
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()

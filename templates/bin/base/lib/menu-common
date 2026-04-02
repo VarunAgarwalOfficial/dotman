@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Shared library for all my menu scripts.
+
+# run_menu takes a prompt and items, runs fzf, returns the selection. When the user presses ESC or selects nothing, fzf exits with code 130 and I use exit 130 in go_back() so the launcher knows to return to the previous menu.
+
+# The FZF_DEFAULT_OPTS use variables from my dotman themes. When I switch themes with theme-switcher, my menus automatically pick up the new colors.
+
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:{{ bg2 }},bg:{{ bg0 }},spinner:{{ accent }},hl:{{ accent }} \
+--color=fg:{{ fg0 }},header:{{ accent }},info:{{ accent }},pointer:{{ accent }} \
+--color=marker:{{ accent }},fg+:{{ fg0 }},prompt:{{ accent }},hl+:{{ accent }} \
+--color=selected-bg:{{ bg3 }} \
+--color=border:{{ accent }},label:{{ fg0 }} \
+--bind=esc:abort"
+
+# Run fzf with the given prompt and items, return the selection
+run_menu() {
+    local prompt="$1"
+    local items="$2"
+    selection=$(echo -e "$items" | fzf --prompt="$prompt: " 2>/dev/null)
+    echo "$selection"
+}
+
+go_back() {
+    exit 0
+}

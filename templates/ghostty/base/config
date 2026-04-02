@@ -1,0 +1,42 @@
+font-family = "{{ font_main }}", "{{ font_icons }}", "{{ font_emoji }}"
+
+# Shell
+command = /usr/bin/{{ shell }}
+shell-integration = {{ shell }}
+
+# Font size
+font-size = {{ font_size }}
+
+font-feature = liga, calt, dlig
+
+# Add some nice looking padding
+window-padding-x = {{ 2 * padding }}
+window-padding-y = {{ 2 * padding }}
+
+# Automatically balance any leftover space
+window-padding-balance = true
+
+palette = 0={{ bg1 | hex }}
+palette = 1={{ red | hex }}
+palette = 2={{ green | hex }}
+palette = 3={{ yellow | hex }}
+palette = 4={{ blue | hex }}
+palette = 5={{ magenta | hex }}
+palette = 6={{ cyan | hex }}
+palette = 7={{ fg1 | hex }}
+palette = 8={{ bg2 | hex }}
+palette = 9={{ bright_red | hex }}
+palette = 10={{ bright_green | hex }}
+palette = 11={{ bright_yellow | hex }}
+palette = 12={{ bright_blue | hex }}
+palette = 13={{ bright_magenta | hex }}
+palette = 14={{ bright_cyan | hex }}
+palette = 15={{ fg0 | hex }}
+
+background = {{ bg0 | strip }}
+foreground = {{ fg0 | strip }}
+cursor-color = {{ fg0 | strip }}
+cursor-text = {{ bg0 | strip }}
+selection-background = {{ bg2 | strip }}
+selection-foreground = {{ fg0 | strip }}
+split-divider-color = {{ bg1 | strip }}

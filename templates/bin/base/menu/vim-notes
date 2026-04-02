@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Browse and edit notes in ~/notes with nvim. Shows all files sorted by most recent, plus an option to create a new one. Spawns a floating-terminal because nvim needs an interactive session.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+NOTES_DIR="${HOME}/notes"
+mkdir -p "$NOTES_DIR"
+
+# List existing notes, newest first
+FILES=$(find "$NOTES_DIR" -type f -printf "%f\n" | sort -r)
+
+# Show existing files plus option to create new
+choice=$(echo -e "new\n$FILES" | fzf --prompt="Note: ")
+[ -z "$choice" ] && go_back
+
+# Open nvim in a new terminal
+if [ "$choice" = "new" ]; then
+    exec "$LIB_DIR/floating-terminal" nvim "$NOTES_DIR/$(date +%s).md"
+else
+    exec "$LIB_DIR/floating-terminal" nvim "$NOTES_DIR/$choice"
+fi

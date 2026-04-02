@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+# Find all .desktop files and parse them for Name
+APPS=$(find /usr/share/applications ~/.local/share/applications -name "*.desktop" 2>/dev/null | while read -r desktop_file; do
+    # Extract Name field from .desktop file
+    name=$(grep -m1 "^Name=" "$desktop_file" | cut -d'=' -f2-)
+    # Get desktop file id (filename without path)
+    desktop_id=$(basename "$desktop_file")
+    
+    # Skip if NoDisplay=true or Hidden=true
+    if grep -q "^NoDisplay=true" "$desktop_file" || grep -q "^Hidden=true" "$desktop_file"; then
+        continue
+    fi
+    
+    # Output format: "App Name | desktop-file.desktop"
+    if [ -n "$name" ]; then
+        echo "$name|$desktop_id"
+    fi
+done | sort -u -t'|' -k1)
+
+# Show only names in fzf
+choice=$(echo "$APPS" | cut -d'|' -f1 | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    # Find desktop file id from the choice
+    desktop_id=$(echo "$APPS" | grep "^$choice|" | cut -d'|' -f2 | head -n1)
+    if [ -n "$desktop_id" ]; then
+        # Strip .desktop extension for gtk-launch
+        app_name="${desktop_id%.desktop}"
+        gtk-launch "$app_name" 2>/dev/null || dex "$desktop_id" 2>/dev/null
+    fi
+fi

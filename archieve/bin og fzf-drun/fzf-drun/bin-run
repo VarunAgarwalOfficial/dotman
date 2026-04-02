@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+BIN_DIR="${HOME}/.local/bin"
+
+SCRIPTS=$(find "$BIN_DIR" -maxdepth 1 -type f -executable 2>/dev/null | xargs -n1 basename 2>/dev/null | sort)
+
+choice=$(echo "$SCRIPTS" | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    "$BIN_DIR/$choice"
+fi

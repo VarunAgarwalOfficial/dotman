@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Browse clipboard history with cliphist and restore a selected entry.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Show clipboard history in fzf
+choice=$(cliphist list | fzf --prompt="Clipboard: ")
+[ -z "$choice" ] && go_back
+
+# Decode and copy the selected entry back to clipboard
+echo "$choice" | cliphist decode | wl-copy
+notify-send -a "Dotman" "Copied"

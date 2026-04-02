@@ -1,0 +1,46 @@
+{
+  "group/audio": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "child-audio",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "wireplumber",
+      "custom/volume-bar"
+    ]
+  },
+  "wireplumber": {
+    "format": "{icon}",
+    "format-muted": "",
+    "format-bluetooth": "",
+    "on-click": "~/.local/bin/lib/floating-terminal wiremix",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+10 waybar",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+10 waybar",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "tooltip": false
+  },
+  "custom/volume-bar": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/volume.sh",
+    "interval": 2,
+    "tooltip": false,
+    "rotate": 90,
+    "signal": 10
+  },
+  "custom/microphone": {
+    "format": "{}",
+    "interval": 1,
+    "exec": "~/.config/waybar/scripts/microphone.sh",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "tooltip": false
+  }
+}

@@ -1,0 +1,24 @@
+gui:
+  border: 'single'
+  theme:
+    activeBorderColor:
+      - '{{ accent }}'
+      - bold
+    inactiveBorderColor:
+      - '{{ bright_black }}'
+    optionsTextColor:
+      - '{{ blue }}'
+    selectedLineBgColor:
+      - '{{ bg0 }}'
+    cherryPickedCommitBgColor:
+      - '{{ bg2 }}'
+    cherryPickedCommitFgColor:
+      - '{{ accent }}'
+    unstagedChangesColor:
+      - '{{ red }}'
+    defaultFgColor:
+      - '{{ fg0 }}'
+    searchingActiveBorderColor:
+      - '{{ yellow }}'
+  authorColors:
+    '*': '{{ accent }}'

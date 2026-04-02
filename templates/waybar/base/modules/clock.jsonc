@@ -1,0 +1,25 @@
+{
+  "clock#time": {
+    "format": "{:%H\n%M}",
+    "tooltip": true,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode"          : "month",
+      "mode-mon-col"  : 3,
+      "weeks-pos"     : "right",
+      "on-scroll"     : 1,
+      "format": {
+        "months":     "<span color='{{ accent }}'><b>{}</b></span>",
+        "days":       "<span color='{{ fg0 }}'><b>{}</b></span>",
+        "weeks":      "<span color='{{ cyan }}'><b>W{}</b></span>",
+        "weekdays":   "<span color='{{ yellow }}'><b>{}</b></span>",
+        "today":      "<span color='{{ red }}'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  }
+}

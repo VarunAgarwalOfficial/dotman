@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+
+HISTORY_FILE="${HOME}/.local/share/cliphist.txt"
+
+CURRENT_CLIP=$(wl-paste 2>/dev/null || xclip -selection clipboard -o 2>/dev/null || echo "")
+
+if [ -f "$HISTORY_FILE" ]; then
+    HISTORY=$(grep -v "^$(echo "$CURRENT_CLIP" | sed 's/[[:punct:]]/\\&/g')$" "$HISTORY_FILE" | tac | head -50)
+else
+    HISTORY=""
+fi
+
+choice=$(echo -e "$CURRENT_CLIP\n$HISTORY" | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    echo -n "$choice" | wl-copy 2>/dev/null || xclip -selection clipboard 2>/dev/null
+    notify-send -a "Dotman" "Copied to clipboard" "$choice"
+fi

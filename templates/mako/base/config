@@ -1,0 +1,19 @@
+background-color={{ bg0 }}
+text-color={{ fg0 }}
+border-color={{ accent }}
+progress-color=over {{ bg2 }}
+border-size={{ border_size }}
+padding={{ padding }}
+border-radius={{ border_radius }}
+default-timeout={{ timeout }}
+ignore-timeout=1
+format=<span><b>%s</b></span>\n%b
+
+[urgency=low]
+border-color={{ blue }}
+
+[urgency=normal]
+border-color={{ accent }}
+
+[urgency=high]
+border-color={{ red }}

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Screenshot tool using grim. Modes: fullscreen, region, window, active window. Saves to ~/Screenshots and copies to clipboard. Spawns a floating-terminal for mode selection and swappy editing.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+SCREENSHOT_DIR="$HOME/Screenshots"
+mkdir -p "$SCREENSHOT_DIR"
+
+MODE_FILE=$(mktemp)
+"$LIB_DIR/floating-terminal" "echo -e 'Full screen\nRegion\nWindow\nActive window' | fzf --prompt='Screenshot: ' > $MODE_FILE"
+MODE_SELECTION=$(cat "$MODE_FILE")
+rm -f "$MODE_FILE"
+[ -z "$MODE_SELECTION" ] && exit 0
+
+SSFILE=$(mktemp)
+trap 'rm -f "$SSFILE"' EXIT
+
+get_active_window_geometry() {
+    hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"'
+}
+
+get_current_workspace_windows() {
+    local workspace_id=$(hyprctl -j activeworkspace | jq -r '.id')
+    hyprctl -j clients | jq -r --arg wid "$workspace_id" '[.[] | select(.workspace.id == ($wid | tonumber))] | .[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"'
+}
+
+get_output() {
+    hyprctl -j monitors | jq -r '.[] | select(.focused == true) | .name'
+}
+
+case "$MODE_SELECTION" in
+    "Full screen")
+        grim -o "$(get_output)" "$SSFILE"
+        ;;
+    "Region")
+        grim -g "$(slurp)" "$SSFILE"
+        ;;
+    "Window")
+        grim -g "$(get_current_workspace_windows | slurp -r)" "$SSFILE"
+        ;;
+    "Active window")
+        grim -g "$(get_active_window_geometry)" "$SSFILE"
+        ;;
+esac
+
+if command -v swappy &>/dev/null; then
+    "$LIB_DIR/floating-terminal" "swappy -f '$SSFILE' -o '$SSFILE'.edited"
+    [ -f "$SSFILE".edited ] && rm "$SSFILE" && SSFILE="$SSFILE".edited
+fi
+
+NAME_FILE=$(mktemp)
+"$LIB_DIR/floating-terminal" "gum input --header 'Screenshot filename' --prompt '> ' --value '$(date +%Y%m%d_%H%M%S).png' > $NAME_FILE"
+FILENAME=$(cat "$NAME_FILE")
+rm -f "$NAME_FILE"
+[ -z "$FILENAME" ] && FILENAME="$(date +%Y%m%d_%H%M%S).png"
+[[ ! "$FILENAME" =~ \.png$ ]] && FILENAME="$FILENAME.png"
+
+mv "$SSFILE" "$SCREENSHOT_DIR/$FILENAME"
+wl-copy --type image/png < "$SCREENSHOT_DIR/$FILENAME"
+notify-send "Screenshot saved" "$FILENAME"

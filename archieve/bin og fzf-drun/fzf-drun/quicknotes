@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+FOOT_CLASS="floating"
+
+QUICKNOTES_DIR="${HOME}/quicknotes"
+
+if [ ! -d "$QUICKNOTES_DIR" ]; then
+    mkdir -p "$QUICKNOTES_DIR"
+fi
+
+DATE=$(date +%Y-%m-%d)
+FILENAME="${DATE}.md"
+FILEPATH="$QUICKNOTES_DIR/$FILENAME"
+
+if [ ! -f "$FILEPATH" ]; then
+    echo "# $(date +%Y-%m-%d\ %A)" > "$FILEPATH"
+    echo "" >> "$FILEPATH"
+fi
+
+foot --app-id="$FOOT_CLASS" nvim "$FILEPATH"

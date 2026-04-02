@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Spawns a new foot terminal for commands that need their own interactive session, like nvim, vim-notes, quicknotes, screenshot, or terminal-rain.
+
+# Most of my menu scripts run inline using run_menu from menu-common. But when I need an interactive terminal session, I spawn a new foot window with this. FOOT_CLASS=floating lets me style these windows in Hyprland with fullscreen, no borders, or whatever I need.
+
+FOOT_CLASS="floating"
+
+# If called with no args or --interactive, open an interactive shell
+if [ "$1" = "--interactive" ] || [ $# -eq 0 ]; then
+    foot --app-id="$FOOT_CLASS" &
+    wait $!
+else
+    # Otherwise run the provided command
+    foot --app-id="$FOOT_CLASS" sh -c "$*" &
+    wait $!
+fi

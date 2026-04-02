@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Quick notes for jotting stuff down without thinking. Opens todays note file in nvim, creates it with a header if it doesnt exist. Spawns a floating-terminal because nvim needs an interactive session.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+NOTES_DIR="${HOME}/quicknotes"
+mkdir -p "$NOTES_DIR"
+
+# Use todays date as the filename
+FILEPATH="$NOTES_DIR/$(date +%Y-%m-%d).md"
+
+# Create the file with a header if it doesnt exist yet
+[ ! -f "$FILEPATH" ] && echo "# $(date +%Y-%m-%d\ %A)\n" > "$FILEPATH"
+
+# Open in nvim with a new terminal
+exec "$LIB_DIR/floating-terminal" nvim "$FILEPATH"

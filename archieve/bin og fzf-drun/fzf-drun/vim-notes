@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+FOOT_CLASS="floating"
+
+NOTES_DIR="${HOME}/notes"
+
+if [ ! -d "$NOTES_DIR" ]; then
+    mkdir -p "$NOTES_DIR"
+fi
+
+FILES=$(find "$NOTES_DIR" -type f 2>/dev/null | sed "s|$NOTES_DIR/||" | sort -r)
+
+choice=$(echo -e "new\n$FILES" | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    if [ "$choice" = "new" ]; then
+        foot --app-id="$FOOT_CLASS" nvim "$NOTES_DIR/$(date +%s).md"
+    else
+        foot --app-id="$FOOT_CLASS" nvim "$NOTES_DIR/$choice"
+    fi
+fi

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Run scripts from ~/.local/bin without having to remember where they are or what they are called.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Find all executables in the bin folder
+SCRIPTS=$(find "$HOME/.local/bin" -maxdepth 1 -type f -executable -printf "%f\n" | sort)
+
+# Pick one to run
+choice=$(echo "$SCRIPTS" | fzf --prompt="Script: ")
+[ -z "$choice" ] && go_back
+
+# Run it
+exec "$HOME/.local/bin/$choice"

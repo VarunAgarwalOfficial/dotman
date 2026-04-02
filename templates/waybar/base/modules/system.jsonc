@@ -1,0 +1,16 @@
+{
+  "custom/pacman": {
+    "format": "",
+    "interval": 3600,
+    "exec": "waybar-module-pacman-updates",
+    "exec-if": "exit 0",
+    "on-click": "~/.local/bin/lib/floating-terminal yay -Syu",
+    "signal": 8,
+    "tooltip": false
+  },
+  "custom/btop": {
+    "format": "",
+    "on-click": "~/.local/bin/lib/floating-terminal btop",
+    "tooltip": false
+  }
+}

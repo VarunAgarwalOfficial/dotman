@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+FZF_DRUN_CORE="$SCRIPT_DIR/fzf-drun.sh"
+DOTMAN_DIR="$HOME/dotman"
+DOTMAN_PY="$DOTMAN_DIR/dotman.py"
+
+# Change to dotman directory so relative paths work
+cd "$DOTMAN_DIR" || exit 1
+
+# Get available themes from dotman list (plain output for scripts)
+THEMES=$(python3 "$DOTMAN_PY" list --plain 2>&1)
+
+if [ -z "$THEMES" ]; then
+    notify-send -a "Dotman" "Theme Switcher" "No themes found or dotman not configured"
+    exit 1
+fi
+
+choice=$(echo "$THEMES" | $FZF_DRUN_CORE)
+
+if [ -n "$choice" ]; then
+    python3 "$DOTMAN_PY" apply "$choice" 2>&1
+    exit_code=$?
+    
+    if [ $exit_code -eq 0 ]; then
+        notify-send -a "Dotman" "Theme Applied" "Switched to: $choice"
+    else
+        notify-send -a "Dotman" "Theme Error" "Failed to apply: $choice"
+    fi
+fi

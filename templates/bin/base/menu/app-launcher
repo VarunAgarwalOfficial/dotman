@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Browse and launch apps like dmenu or rofi. Parses .desktop files so I get the nice display names instead of filenames.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+
+source "$LIB_DIR/menu-common"
+
+# Parse .desktop files to get app names and their filenames
+APPS=$(find /usr/share/applications ~/.local/share/applications -name "*.desktop" 2>/dev/null | while read -r file; do
+    name=$(grep -m1 "^Name=" "$file" | cut -d'=' -f2-)    # Get the display name
+    desktop_id=$(basename "$file")                        # Get the filename
+    grep -q "^NoDisplay=true\|Hidden=true" "$file" && continue  # Skip hidden apps
+    [ -n "$name" ] && echo "$name|$desktop_id"           # Output name|filename
+done | sort -u -t'|' -k1)
+
+# Show in fzf and launch selected
+choice=$(echo "$APPS" | cut -d'|' -f1 | fzf --prompt="App: ")
+[ -z "$choice" ] && go_back
+
+# Get the desktop file for the selected app
+desktop_id=$(echo "$APPS" | grep "^$choice|" | cut -d'|' -f2 | head -n1)
+if [ -n "$desktop_id" ]; then
+    notify-send -a "Dotman" "Launched: $choice"
+    daemon -- gtk-launch "${desktop_id%.desktop}" 2>/dev/null || daemon -- dex "$desktop_id" 2>/dev/null
+fi
+exit 0
