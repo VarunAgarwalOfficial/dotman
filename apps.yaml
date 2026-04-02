@@ -97,9 +97,3 @@ gtk4:
   target: "~/.config/gtk-4.0"
   template: "templates/gtk4.0"
   files: ["gtk.css"]
-
-papirus:
-  target: "~/.local/bin"
-  template: "templates/bin"
-  files: ["lib/papirus-setup"]
-  reload: "rm -rf ~/.local/share/icons/dotman-papirus && bash ~/.local/bin/lib/papirus-setup && gsettings set org.gnome.desktop.interface icon-theme dotman-papirus"
