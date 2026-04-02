@@ -1,0 +1,24 @@
+/* GTK4 - {{ theme_name }} */
+* {
+    border-radius: 0;
+}
+
+window, button, entry, popover, menu, row, scrollbar, tooltip, frame, .card, combobox, switch, separator, headerbar, .titlebar, .decoration {
+    border-radius: 0;
+}
+
+scrollbar slider {
+    min-width: 8px;
+    min-height: 8px;
+}
+
+separator {
+    background: none;
+    border: none;
+}
+
+/* Theme colors */
+window {
+    background-color: {{ bg0 }};
+    color: {{ fg0 }};
+}

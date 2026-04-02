@@ -20,7 +20,7 @@ def hex_to_rgb(value: str) -> str:
         return value
 
 
-def hex_to_rgba(value: str, alpha: float) -> str:
+def hex_to_rgba(value: str, alpha: float = 0.5) -> str:
     """Convert hex to rgba(R, G, B, A)."""
     rgb = hex_to_rgb(value)
     return f"rgba({rgb}, {alpha})"

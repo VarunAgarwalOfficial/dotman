@@ -1,0 +1,39 @@
+/* GTK3 - {{ theme_name }} */
+* {
+    border-radius: 0;
+}
+
+window, button, entry, popover, menu, row, scrollbar, tooltip, frame, .card, combobox, switch, separator, headerbar, .titlebar, .decoration {
+    border-radius: 0;
+}
+
+scrollbar slider {
+    min-width: 8px;
+    min-height: 8px;
+}
+
+separator {
+    background: none;
+    border: none;
+}
+
+/* Theme colors */
+window, window.background {
+    background-color: {{ bg0 }};
+    color: {{ fg0 }};
+}
+
+button {
+    background-color: {{ bg2 }};
+    color: {{ fg0 }};
+}
+
+entry {
+    background-color: {{ bg1 }};
+    color: {{ fg0 }};
+}
+
+.view:selected, treeview:selected, row:selected {
+    background-color: {{ accent }};
+    color: {{ bg0 }};
+}
