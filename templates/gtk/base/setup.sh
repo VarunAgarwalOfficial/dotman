@@ -15,6 +15,16 @@ else
     echo "GTK theme already exists: $THEME_DIR"
 fi
 
-# Ensure CSS file is in place
+# Update index.theme
+cat > "$THEME_DIR/index.theme" << 'EOF'
+[X-GNOME-Metatheme]
+Name=dotman-gtk-dark
+Type=X-GNOME-Metatheme
+Comment=dotman GTK theme with flat overrides
+Encoding=UTF-8
+GtkTheme=dotman-gtk-dark
+EOF
+
+# Ensure directories exist
 mkdir -p "$THEME_DIR/gtk-3.0"
 mkdir -p "$THEME_DIR/gtk-4.0"
