@@ -6,9 +6,45 @@
   text-shadow: none !important;
 }
 
-/* Remove border-radius globally */
-* {
+/* Remove border-radius globally - override everything */
+*,
+window,
+window.background,
+.titlebar,
+headerbar,
+headerbar button,
+button,
+.button,
+entry,
+entry:focus,
+popover,
+popover *,
+menu,
+menuitem,
+sidebar,
+sidebar row,
+row,
+list row,
+scrolledwindow,
+scrollbar,
+scrollbar slider,
+tooltip,
+.tooltip,
+.card,
+.frame,
+.osd {
   border-radius: {{ border_radius }}px !important;
+}
+
+/* Libadwaita specific */
+window {
+  border-radius: 0px !important;
+}
+
+deck,
+tabview,
+tabview > stack {
+  border-radius: 0px !important;
 }
 
 /* Remove undershoot indicators */

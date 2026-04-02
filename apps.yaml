@@ -91,6 +91,11 @@ yazi:
 gtk:
   target: "~/.config"
   template: "templates/gtk"
+  files:
+    - "gtk-3.0/gtk.css"
+    - "gtk-3.0/settings.ini"
+    - "gtk-4.0/gtk.css"
+    - "gtk-4.0/settings.ini"
 
 papirus:
   target: "~/.local/share/icons"

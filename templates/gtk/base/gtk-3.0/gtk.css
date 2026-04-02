@@ -6,8 +6,37 @@
   text-shadow: none !important;
 }
 
-/* Remove border-radius globally */
-* {
+/* Remove border-radius globally - override everything */
+*,
+.window-frame,
+.window-frame:backdrop,
+.titlebar,
+.header-bar,
+.titlebar button,
+.header-bar button,
+.entry,
+.entry:focus,
+button,
+.button,
+toolbar button,
+.toolbar button,
+.osd button,
+.osd button:hover,
+.popover,
+.popover *,
+.menu,
+.menuitem,
+.sidebar,
+.sidebar row,
+row,
+list row,
+calendar,
+calendar.button,
+scrollbar,
+scrollbar slider,
+tooltip,
+.infobar,
+.event-box {
   border-radius: {{ border_radius }}px !important;
 }
 
