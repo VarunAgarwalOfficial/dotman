@@ -89,13 +89,12 @@ yazi:
   template: "templates/yazi"
 
 gtk:
-  target: "~/.config"
+  target: "~/.local/share/themes"
   template: "templates/gtk"
   files:
     - "gtk-3.0/gtk.css"
-    - "gtk-3.0/settings.ini"
     - "gtk-4.0/gtk.css"
-    - "gtk-4.0/settings.ini"
+  reload: "gsettings set org.gnome.desktop.interface gtk-theme dotman-gtk-dark"
 
 papirus:
   target: "~/.local/share/icons"
