@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Screenshot tool using grim. Modes: fullscreen, region, window, active window. Saves to ~/Screenshots and copies to clipboard. Spawns a floating-terminal for mode selection and swappy editing.
+# Screenshot tool using grim. Modes: fullscreen, region, window, active window. Saves to ~/Screenshots and copies to clipboard. Spawns a footspawn for mode selection and swappy editing.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$(cd "$SCRIPT_DIR/lib" && pwd)"
@@ -10,7 +10,7 @@ SCREENSHOT_DIR="$HOME/Screenshots"
 mkdir -p "$SCREENSHOT_DIR"
 
 MODE_FILE=$(mktemp)
-"$LIB_DIR/floating-terminal" "echo -e 'Full screen\nRegion\nWindow\nActive window' | fzf --prompt='Screenshot: ' > $MODE_FILE"
+"$LIB_DIR/footspawn" "echo -e 'Full screen\nRegion\nWindow\nActive window' | fzf --prompt='Screenshot: ' > $MODE_FILE"
 MODE_SELECTION=$(cat "$MODE_FILE")
 rm -f "$MODE_FILE"
 [ -z "$MODE_SELECTION" ] && exit 0
@@ -47,12 +47,12 @@ case "$MODE_SELECTION" in
 esac
 
 if command -v swappy &>/dev/null; then
-    "$LIB_DIR/floating-terminal" "swappy -f '$SSFILE' -o '$SSFILE'.edited"
+    "$LIB_DIR/footspawn" "swappy -f '$SSFILE' -o '$SSFILE'.edited"
     [ -f "$SSFILE".edited ] && rm "$SSFILE" && SSFILE="$SSFILE".edited
 fi
 
 NAME_FILE=$(mktemp)
-"$LIB_DIR/floating-terminal" "gum input --header 'Screenshot filename' --prompt '> ' --value '$(date +%Y%m%d_%H%M%S).png' > $NAME_FILE"
+"$LIB_DIR/footspawn" "gum input --header 'Screenshot filename' --prompt '> ' --value '$(date +%Y%m%d_%H%M%S).png' > $NAME_FILE"
 FILENAME=$(cat "$NAME_FILE")
 rm -f "$NAME_FILE"
 [ -z "$FILENAME" ] && FILENAME="$(date +%Y%m%d_%H%M%S).png"

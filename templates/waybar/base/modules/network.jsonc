@@ -25,7 +25,7 @@
       "",
       ""
     ],
-    "on-click": "~/.local/bin/lib/floating-terminal impala",
+    "on-click": "~/.local/bin/lib/footspawn impala",
     "tooltip": false
   },
   "network#text": {

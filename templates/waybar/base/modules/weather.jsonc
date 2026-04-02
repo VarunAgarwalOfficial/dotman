@@ -16,7 +16,7 @@
     "tooltip": false,
     "interval": 1800,
     "exec": "~/.config/waybar/scripts/weather.sh",
-    "on-click": "~/.local/bin/lib/floating-terminal sh -c \"curl wttr.in/Sydney; echo 'Press Enter to close'; read\""
+    "on-click": "~/.local/bin/lib/footspawn sh -c \"curl wttr.in/Sydney; echo 'Press Enter to close'; read\""
   },
   "custom/weather-text": {
     "format": "{}",

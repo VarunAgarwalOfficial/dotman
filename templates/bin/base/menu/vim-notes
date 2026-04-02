@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Browse and edit notes in ~/notes with nvim. Shows all files sorted by most recent, plus an option to create a new one. Spawns a floating-terminal because nvim needs an interactive session.
+# Browse and edit notes in ~/notes with nvim. Shows all files sorted by most recent, plus an option to create a new one. Spawns a footspawn because nvim needs an interactive session.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
@@ -18,7 +18,7 @@ choice=$(echo -e "new\n$FILES" | fzf --prompt="Note: ")
 
 # Open nvim in a new terminal
 if [ "$choice" = "new" ]; then
-    exec "$LIB_DIR/floating-terminal" nvim "$NOTES_DIR/$(date +%s).md"
+    exec "$LIB_DIR/footspawn" nvim "$NOTES_DIR/$(date +%s).md"
 else
-    exec "$LIB_DIR/floating-terminal" nvim "$NOTES_DIR/$choice"
+    exec "$LIB_DIR/footspawn" nvim "$NOTES_DIR/$choice"
 fi

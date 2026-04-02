@@ -4,13 +4,13 @@
     "interval": 3600,
     "exec": "waybar-module-pacman-updates",
     "exec-if": "exit 0",
-    "on-click": "~/.local/bin/lib/floating-terminal yay -Syu",
+    "on-click": "~/.local/bin/lib/footspawn yay -Syu",
     "signal": 8,
     "tooltip": false
   },
   "custom/btop": {
     "format": "",
-    "on-click": "~/.local/bin/lib/floating-terminal btop",
+    "on-click": "~/.local/bin/lib/footspawn btop",
     "tooltip": false
   }
 }

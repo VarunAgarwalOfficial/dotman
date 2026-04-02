@@ -15,7 +15,7 @@
     "format": "{icon}",
     "format-muted": "",
     "format-bluetooth": "",
-    "on-click": "~/.local/bin/lib/floating-terminal wiremix",
+    "on-click": "~/.local/bin/lib/footspawn wiremix",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+10 waybar",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+10 waybar",
     "format-icons": {

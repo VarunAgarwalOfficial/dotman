@@ -17,7 +17,7 @@
     "tooltip": false,
     "max-length": 20,
     "on-click": "playerctl play-pause",
-    "on-click-right": "~/.local/bin/lib/floating-terminal cava",
+    "on-click-right": "~/.local/bin/lib/footspawn cava",
     "smooth-scrolling-threshold": 1,
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous",

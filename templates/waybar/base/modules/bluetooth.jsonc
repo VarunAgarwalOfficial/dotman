@@ -15,7 +15,7 @@
     "format": "",
     "format-connected": "",
     "format-connected-battery": "",
-    "on-click": "~/.local/bin/lib/floating-terminal bluetui",
+    "on-click": "~/.local/bin/lib/footspawn bluetui",
     "tooltip": false
   },
   "custom/bluetooth-battery": {

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Quick notes for jotting stuff down without thinking. Opens todays note file in nvim, creates it with a header if it doesnt exist. Spawns a floating-terminal because nvim needs an interactive session.
+# Quick notes for jotting stuff down without thinking. Opens todays note file in nvim, creates it with a header if it doesnt exist. Spawns a footspawn because nvim needs an interactive session.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
@@ -16,4 +16,4 @@ FILEPATH="$NOTES_DIR/$(date +%Y-%m-%d).md"
 [ ! -f "$FILEPATH" ] && echo "# $(date +%Y-%m-%d\ %A)\n" > "$FILEPATH"
 
 # Open in nvim with a new terminal
-exec "$LIB_DIR/floating-terminal" nvim "$FILEPATH"
+exec "$LIB_DIR/footspawn" nvim "$FILEPATH"

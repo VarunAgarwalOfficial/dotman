@@ -37,7 +37,7 @@ All scripts deploy to `~/.local/bin/` with the following structure:
 ├── terminal-rain           - ASCII rain screensaver
 ├── lib/
 │   ├── menu-common         - Shared fzf menu library
-│   ├── floating-terminal   - Floating foot terminal launcher
+│   ├── footspawn            - Foot terminal for interactive apps
 │   └── screensaver-launcher - Screensaver launcher with lock file
 └── menu/
     ├── launcher           - Main menu hub (SUPER+SPACE)
@@ -147,13 +147,11 @@ run_menu() is my main function. Give it a prompt and some items, it runs fzf
 and returns the selection. go_back() exits with code 130 which parent menus
 check for to return to the previous level.
 
-### floating-terminal
+### footspawn
 
-I use foot as my terminal and sometimes need to
-spawn floating windows for various things. This script handles that for me.
+Foot terminal launcher. I use foot as my terminal and sometimes need to spawn floating windows for various things like nvim, btop, or other TUI apps. This script handles that for me.
 
-The FOOT_CLASS=floating sets an app-id so I can style these windows in Hyprland
-(fullscreen, no borders, etc). Works with commands, stdin input, or interactive mode.
+The FOOT_CLASS=floating sets an app-id so I can style these windows in Hyprland (fullscreen, no borders, etc). Works with commands, stdin input, or interactive mode.
 
 ### screensaver-launcher
 
