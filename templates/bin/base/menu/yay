@@ -21,7 +21,7 @@ case "${1:-menu}" in
     install)
         PKG=$(yay -Slq | fzf --prompt="Install: " --preview="yay -Si {1} | head -30" --preview-window="right:50%:wrap")
         [ -z "$PKG" ] && go_back
-        "$LIB_DIR/footspawn" "yay -S '$PKG'"
+        "$LIB_DIR/footspawn" --persist "yay -S '$PKG'"
         ;;
 
     search-installed)
@@ -30,13 +30,13 @@ case "${1:-menu}" in
         ;;
 
     update)
-        yay -Syu
+        "$LIB_DIR/footspawn" --persist "yay -Syu"
         ;;
 
     remove)
         PKG=$(yay -Qq | fzf --prompt="Remove: " --preview="yay -Qi {1} | head -20" --preview-window="right:50%:wrap")
         [ -z "$PKG" ] && go_back
-        "$LIB_DIR/footspawn" "yay -Rns '$PKG'"
+        "$LIB_DIR/footspawn" --persist "yay -Rns '$PKG'"
         ;;
 
     clean)

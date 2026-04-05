@@ -4,13 +4,36 @@
 # Most of my menu scripts run inline using run_menu from menu-common. But when I need an interactive terminal session, I spawn a new foot window with this. FOOT_CLASS=floating lets me style these windows in Hyprland with fullscreen, no borders, or whatever I need.
 
 FOOT_CLASS="floating"
+PERSIST=false
 
-# If called with no args or --interactive, open an interactive shell
-if [ "$1" = "--interactive" ] || [ $# -eq 0 ]; then
+# Parse flags
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --persist)
+            PERSIST=true
+            shift
+            ;;
+        --interactive)
+            foot --app-id="$FOOT_CLASS" &
+            wait $!
+            exit 0
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+# If called with no args, open an interactive shell
+if [ $# -eq 0 ]; then
     foot --app-id="$FOOT_CLASS" &
     wait $!
 else
-    # Otherwise run the provided command
-    foot --app-id="$FOOT_CLASS" sh -c "$*" &
+    if [ "$PERSIST" = true ]; then
+        # Run the command, then drop to a shell so the terminal stays open
+        foot --app-id="$FOOT_CLASS" sh -c "$*; echo; echo '── Press Enter to close ──'; read" &
+    else
+        foot --app-id="$FOOT_CLASS" sh -c "$*" &
+    fi
     wait $!
 fi

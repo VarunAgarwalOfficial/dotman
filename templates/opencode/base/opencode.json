@@ -1,7 +1,16 @@
 {
-  "plugin": ["@mohak34/opencode-notifier@latest", "kdco/worktree"],
+  "plugin": ["@mohak34/opencode-notifier@latest", "kdco/worktree", "ghoulr/opencode-websearch-cited@1.2.0", "opencode-snip@latest", "@tarquinen/opencode-smart-title", "opencode-handoff"],
   "permission": {
     "websearch": "allow"
+  },
+  "provider": {
+    "openrouter": {
+      "options": {
+        "websearch_cited": {
+          "model": "x-ai/grok-4.1-fast"
+        }
+      }
+    }
   },
   "agent": {
     "orchestrator-subagent": {
