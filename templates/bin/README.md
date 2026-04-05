@@ -24,6 +24,7 @@ My collection of scripts that get deployed to `~/.local/bin/`. These handle ever
     ├── vim-notes           # Notes browser in ~/notes
     ├── bin-run             # Run scripts from ~/.local/bin
     ├── pkill               # Process killer
+    ├── yay                 # Pacman/AUR wrapper
     └── yay                 # Pacman/AUR wrapper
 ```
 

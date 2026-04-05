@@ -1,6 +1,19 @@
 {
+  "plugin": ["@mohak34/opencode-notifier@latest", "kdco/worktree"],
   "permission": {
     "websearch": "allow"
+  },
+  "agent": {
+    "orchestrator-subagent": {
+      "mode": "subagent",
+      "description": "A sub-agent that can delegate further tasks to others.",
+      "task_budget": 5,
+      "level_limit": 3,
+      "permission": {
+        "task": {
+          "*": "allow"
+        }
+      }
+    }
   }
 }
-
